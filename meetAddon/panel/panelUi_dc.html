@@ -82,7 +82,7 @@
         return;
       });
 
-      $("meetAddonFrame").setAttribute("src", addonFrameUrl + `${addonFrameUrl}/encodeURIcomponent(clientType)?space=${encodeURIcomponent(meetingInfo.meetingId)}&frameOpenReason=${encodeURIcomponent(frameOpenReason)}`);
+      $("meetAddonFrame").setAttribute("src", addonFrameUrl + `${addonFrameUrl}/${encodeURIComponent(clientType)}?space=${encodeURIComponent(meetingInfo.meetingId)}&frameOpenReason=${encodeURIComponent(frameOpenReason)}`);
 
       return;
     }
