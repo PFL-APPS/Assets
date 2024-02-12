@@ -22,7 +22,7 @@
     let meetingInfo;
     let frameOpenReason;
     let notifyGasPanel = null; 
-    document.addEventListener("message", async (e) => {
+    window.addEventListener("message", async (e) => {
       const sourceDocument = e.source;
       const sourceOrigin = e.origin;
       if (!origin.endsWith("script.googleusercontent.com")) {
