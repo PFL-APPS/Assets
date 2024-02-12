@@ -61,9 +61,9 @@
         cloudProjectNumber: "866788378341",
       });
       if (clientType=="sidePanel") {
-        client = await session.createSidePanelClient();
+        client = await addonSession.createSidePanelClient();
       } else if (clientType=="mainStage") {
-        client = await session.createMainStageClient();
+        client = await addonSession.createMainStageClient();
       } else {
         return;
       }
