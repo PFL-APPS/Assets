@@ -67,8 +67,8 @@
       } else {
         return;
       }
-      meetingInfo = client.getMeetingInfo();
-      frameOpenReason = client.getFrameOpenReason();
+      meetingInfo = await client.getMeetingInfo();
+      frameOpenReason = await client.getFrameOpenReason();
       client.on("frameToFrameMessage", (payload) => {
         return;
       });
@@ -82,7 +82,7 @@
         return;
       });
 
-      $("meetAddonFrame").setAttribute("src", addonFrameUrl + `${addonFrameUrl}/${encodeURIComponent(clientType)}?space=${encodeURIComponent(meetingInfo.meetingId)}&frameOpenReason=${encodeURIComponent(frameOpenReason)}`);
+      $("meetAddonFrame").setAttribute("src", addonFrameUrl + `/${encodeURIComponent(clientType)}?space=${encodeURIComponent(meetingInfo.meetingId)}&frameOpenReason=${encodeURIComponent(frameOpenReason)}`);
 
       return;
     }
