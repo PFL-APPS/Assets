@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <base target="_blank">
+  </head>
+  <body style="padding: 0; margin: 0;">
+    <iframe id="meetAddonFrame" style="width: 100vw; height: 100vh;">
+    </iframe>
+  </body>
+  <script>
+    const $ = (id) => {return document.getElementById(id)};
+    const addonFrameUrl = "";
+    const clientType = {
+      sidePanel: "sidePanel",
+      mainStage: "mainStage"
+    }[location.hash] || null;
+    let addonSession;
+    let client;
+    let meetingInfo;
+    let frameOpenReason;
+    let notifyGasPanel = null; 
+    document.addEventListener("message", async (e) => {
+      const sourceDocument = e.source;
+      const sourceOrigin = e.origin;
+      if (!origin.endsWith("script.googleusercontent.com")) {
+        throw "Message from an invalid origin.";
+      }
+      const payload = JSON.parse(e.data);
+      if (payload.kind == "appsScriptPanelMessage") {
+        if (!notifyGasPanel) {
+          notifyGasPanel = (message) => {
+            sourceDocument.postMessage(message, sourceOrigin);
+          };
+        }
+        const action = payload.action;
+        if (action.setCollaborationStartingState) {
+          await client.setCollaborationStartingState(action.setCollaborationStartingState);
+        }
+        if (action.clearCollaborationStartingState) {
+          await client.clearCollaborationStartingState(action.clearCollaborationStartingState);
+        }
+        if (action.notifyMainStage) {
+          await client.notifyMainStage(action.notifyMainStage);
+        }
+        if (action.notifySidePanel) {
+          await client.notifySidePanel(action.notifySidePanel);
+        }
+        if (action.loadSidePanel) {
+          await client.loadSidePanel();
+        }
+        if (action.unloadSidePanel) {
+          await client.unloadSidePanel();
+        }
+      }
+    });
+    async function init() {
+      addonSession = await window.meet.addon.createAddonSession({
+        cloudProjectNumber: "866788378341",
+      });
+      if (clientType=="sidePanel") {
+        client = await session.createSidePanelClient();
+      } else if (clientType=="mainStage") {
+        client = await session.createMainStageClient();
+      } else {
+        return;
+      }
+      meetingInfo = client.getMeetingInfo();
+      frameOpenReason = client.getFrameOpenReason();
+      client.on("frameToFrameMessage", (payload) => {
+        return;
+      });
+      client.on("userInitiatedCollaboration", (payload) => {
+        notifyGasPanel(JSON.stringify({
+          kind: "appsScriptPanelMessage",
+          action: {
+            initiateCollaboration: true
+          }
+        }));
+        return;
+      });
+
+      $("meetAddonFrame").setAttribute("src", addonFrameUrl + `?space=${encodeURIcomponent(meetingInfo.meetingId)}&client=${encodeURIcomponent(clientType)}&frameOpenReason=${encodeURIcomponent(frameOpenReason)}`);
+
+      return;
+    }
+
+    document.body.onload = () => {
+      init();
+    };
+  </script>
+</html>
