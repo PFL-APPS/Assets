@@ -23,10 +23,11 @@
     let frameOpenReason;
     let notifyGasPanel = null; 
     window.addEventListener("message", async (e) => {
+      console.log(e);
       const sourceDocument = e.source;
       const sourceOrigin = e.origin;
       if (!origin.endsWith("script.googleusercontent.com")) {
-        throw "Message from an invalid origin.";
+        throw `Message from an invalid origin: ${origin}`;
       }
       const payload = JSON.parse(e.data);
       if (payload.kind == "appsScriptPanelMessage") {
