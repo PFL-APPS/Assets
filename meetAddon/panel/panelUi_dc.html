@@ -77,8 +77,8 @@
           cloudProjectNumber: "866788378341",
         });
       } catch(err) {
-        if (!window.parent) {
-          location.href="https://meet.google.com";
+        if (window.parent == window) {
+          location.href = "https://meet.google.com";
         } else {
           $("body").textContent = err.message;
           throw err;
