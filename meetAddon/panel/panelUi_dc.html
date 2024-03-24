@@ -16,8 +16,11 @@
     <script src="https://www.gstatic.com/meetjs/addons/0.1.0/meet.addons.js"></script>
   </head>
   <body style="padding: 0; margin: 0; overflow: hidden;">
-    <div id="loading" style="position: fixed; top: 0; z-index: 1; width: 100%; height: 100vh; display: flex; align-items: center;">
-      <img src="https://pfl-apps.github.io/Assets/common/icon_loading2.png" style="display: block; margin: auto; width: 3em; height: 3em; animation: slurpRotation 1s linear infinite;">
+    <div id="loading" style="position: fixed; top: 0; z-index: 1; width: 100%; height: 100vh; background-color: white; display: flex; align-items: center;">
+      <div style="margin: auto;">
+        <img src="https://pfl-apps.github.io/Assets/common/icon_loading2.png" style="display: block; margin: auto; width: 3em; height: 3em; animation: slurpRotation 1s linear infinite;">
+        <p id="loadingText" style="padding: 1em; text-align: center;">会議を取得しています……</p>
+      </div>
     </div>
     <iframe id="meetAddonFrame" style="width: 100%; height: 100vh; padding: 0; margin: 0; border: none;">
     </iframe>
@@ -98,6 +101,7 @@
         $("loading").style.display = "none";
       });
       $("meetAddonFrame").setAttribute("src", addonFrameUrl + `/${encodeURIComponent(clientType)}?space=${encodeURIComponent(meetingInfo.meetingId)}&frameOpenReason=${encodeURIComponent(frameOpenReason)}`);
+      $("loadingText").textContent = "準備しています……"
 
       return;
     }
