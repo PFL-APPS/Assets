@@ -54,6 +54,14 @@
         if (action.setCollaborationStartingState) {
           await client.setCollaborationStartingState(action.setCollaborationStartingState);
         }
+        if (action.getCollaborationStartingState) {
+          notifyGasPanel(JSON.stringify({
+            kind: "appsScriptPanelMessage",
+            action: {
+              getCollaborationStartingState: await client.getCollaborationStartingState()
+            }
+          }));
+        }
         if (action.clearCollaborationStartingState) {
           await client.clearCollaborationStartingState(action.clearCollaborationStartingState);
         }
