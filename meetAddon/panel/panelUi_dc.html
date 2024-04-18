@@ -120,6 +120,13 @@
       $("meetAddonFrame").setAttribute("src", addonFrameUrl + `/${encodeURIComponent(clientType)}?space=${encodeURIComponent(meetingInfo.meetingId)}&frameOpenReason=${encodeURIComponent(frameOpenReason)}`);
       $("loadingText").textContent = "準備しています……"
 
+      await addonSession.createCoDoingClient({
+        activityTitle: "Hello CoDoing",
+        onCoDoingStateChanged: (coDoingState)=>{
+          console.log(new TextDecoder().decode(coDoingState));
+        }
+      });
+
       return;
     }
 
